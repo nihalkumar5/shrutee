@@ -356,10 +356,39 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- 5. SECRET LETTER UNBOXING & TYPEWRITER ---
   const openLetterBtn = document.getElementById('openLetterBtn');
   const closeLetterBtn = document.getElementById('closeLetterBtn');
+  const bottomCloseLetterBtn = document.getElementById('bottomCloseLetterBtn');
   const letterModal = document.getElementById('letterModal');
   const waxSeal = document.getElementById('waxSeal');
   const envelope = document.getElementById('envelope');
   const letterTextElement = document.getElementById('letterText');
+
+  function hideLetterModal() {
+    if (letterModal) letterModal.classList.add('hidden');
+  }
+
+  addTapListener(openLetterBtn, () => {
+    if (letterModal) letterModal.classList.remove('hidden');
+  });
+
+  addTapListener(closeLetterBtn, hideLetterModal);
+  addTapListener(bottomCloseLetterBtn, hideLetterModal);
+
+  // Backdrop click close
+  if (letterModal) {
+    letterModal.addEventListener('click', (e) => {
+      if (e.target === letterModal) {
+        hideLetterModal();
+      }
+    });
+  }
+
+  // Escape key close
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      hideLetterModal();
+      if (surpriseModal) surpriseModal.classList.add('hidden');
+    }
+  });
 
   const letterContent = 
 `Dear Shrutee,
@@ -380,14 +409,6 @@ Happy Birthday, Shrutee! 🎉💖
 Your Varanasi friend, Nihal Kumar`;
 
   let isLetterOpened = false;
-
-  addTapListener(openLetterBtn, () => {
-    letterModal.classList.remove('hidden');
-  });
-
-  addTapListener(closeLetterBtn, () => {
-    letterModal.classList.add('hidden');
-  });
 
   addTapListener(waxSeal, () => {
     if (isLetterOpened) return;
