@@ -343,7 +343,7 @@ Keep shining brightly like the star that you are.
 Happy Birthday, Shrutee! 🎉💖
 
 — With lots of love & warm wishes,
-Nihal Kumar`;
+Your Varanasi friend, Nihal Kumar`;
 
   let isLetterOpened = false;
 
