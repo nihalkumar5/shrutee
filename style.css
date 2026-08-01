@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHRUTEE'S BIRTHDAY CELEBRATION - STYLESHEET
-   Design System: Midnight Starlight & Rose Gold Glassmorphism (2026 Edition)
+   Design System: Midnight Starlight & Rose Gold Glassmorphism (Premium 2026 Edition)
    ========================================================================== */
 
 :root {
@@ -9,14 +9,14 @@
   --accent-gold: #ffd700;
   --accent-purple: #7b2cbf;
   --bg-dark: #0a0915;
-  --bg-card: rgba(255, 255, 255, 0.07);
+  --bg-card: rgba(255, 255, 255, 0.08);
   --border-glass: rgba(255, 255, 255, 0.18);
   --text-main: #ffffff;
   --text-muted: #e2e8f0;
   --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-handwriting: 'Dancing Script', cursive;
-  --shadow-glow: 0 8px 32px 0 rgba(255, 117, 140, 0.25);
-  --shadow-gold: 0 8px 32px 0 rgba(255, 215, 0, 0.3);
+  --shadow-glow: 0 12px 40px 0 rgba(255, 117, 140, 0.3);
+  --shadow-gold: 0 12px 40px 0 rgba(255, 215, 0, 0.35);
 }
 
 * {
@@ -24,6 +24,7 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -49,24 +50,24 @@ body {
 /* Glassmorphism Panel Utility */
 .glass-panel {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-glass);
-  border-radius: 24px;
+  border-radius: 28px;
   box-shadow: var(--shadow-glow);
 }
 
 /* Music Control Button */
 .music-btn {
   position: fixed;
-  top: 24px;
-  right: 24px;
+  top: 20px;
+  right: 20px;
   z-index: 100;
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  padding: 12px 20px;
+  padding: 12px 22px;
   border-radius: 50px;
   cursor: pointer;
   display: flex;
@@ -75,7 +76,7 @@ body {
   font-size: 0.95rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 
 .music-btn:hover {
@@ -89,8 +90,8 @@ body {
 }
 
 @keyframes pulse-music {
-  0%, 100% { box-shadow: 0 0 10px rgba(255, 117, 140, 0.4); }
-  50% { box-shadow: 0 0 25px rgba(255, 117, 140, 0.8); }
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 117, 140, 0.5); }
+  50% { box-shadow: 0 0 28px rgba(255, 117, 140, 0.9); }
 }
 
 /* Hero Section */
@@ -100,40 +101,52 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 60px 20px 40px 20px;
+  padding: 80px 20px 60px 20px;
   position: relative;
   z-index: 2;
   text-align: center;
 }
 
 .hero-card {
-  max-width: 750px;
+  max-width: 680px;
   width: 100%;
-  padding: 50px 30px;
+  padding: 50px 36px;
   text-align: center;
   position: relative;
   overflow: hidden;
   animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.hero-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,117,140,0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+
 .badge-pill {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(255,117,140,0.3), rgba(255,215,0,0.3));
-  border: 1px solid rgba(255,215,0,0.5);
+  background: linear-gradient(135deg, rgba(255,117,140,0.35), rgba(255,215,0,0.35));
+  border: 1px solid rgba(255,215,0,0.6);
   color: var(--accent-gold);
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 50px;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
 }
 
 .hero-title {
-  font-size: 3.2rem;
+  font-size: 3.4rem;
   font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   background: linear-gradient(135deg, #ffffff 0%, #ffc2d1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -147,45 +160,12 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--text-muted);
   font-weight: 300;
-  max-width: 600px;
-  margin: 0 auto 28px auto;
+  max-width: 540px;
+  margin: 0 auto 36px auto;
   line-height: 1.6;
-}
-
-/* Live Birthday Box (August 2, 2026 Celebration) */
-.today-birthday-box {
-  padding: 20px 30px;
-  margin: 0 auto 30px auto;
-  max-width: 550px;
-  border: 2px solid var(--accent-gold);
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 117, 140, 0.25));
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  text-align: center;
-  border-radius: 20px;
-}
-
-.today-emoji {
-  font-size: 2.2rem;
-  margin-bottom: 8px;
-  animation: bounce-slow 2s infinite ease-in-out;
-}
-
-.today-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--accent-gold);
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.today-date {
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 500;
 }
 
 .hero-actions {
@@ -199,7 +179,7 @@ body {
 .btn {
   padding: 16px 32px;
   border-radius: 50px;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
   border: none;
@@ -214,18 +194,18 @@ body {
 .btn-primary {
   background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
   color: white;
-  box-shadow: 0 10px 25px rgba(255, 117, 140, 0.4);
+  box-shadow: 0 10px 28px rgba(255, 117, 140, 0.45);
 }
 
 .btn-primary:hover {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 15px 35px rgba(255, 117, 140, 0.6);
+  box-shadow: 0 15px 35px rgba(255, 117, 140, 0.65);
 }
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(10px);
 }
 
@@ -260,8 +240,8 @@ body {
 .btn-surprise {
   background: linear-gradient(135deg, #ff477e 0%, #ff70a6 50%, #ff9770 100%);
   color: white;
-  font-size: 1.15rem;
-  padding: 16px 36px;
+  font-size: 1.1rem;
+  padding: 16px 34px;
   box-shadow: 0 12px 30px rgba(255, 71, 126, 0.5);
   animation: bounce-slow 3s infinite ease-in-out;
 }
@@ -350,8 +330,8 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(10, 9, 21, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(10, 9, 21, 0.88);
+  backdrop-filter: blur(14px);
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -969,15 +949,16 @@ body {
 
 /* Responsive Adjustments for Mobile Devices */
 @media (max-width: 768px) {
-  .hero-title { font-size: 2.2rem; }
+  .hero-section { padding: 60px 16px 40px 16px; }
+  .hero-title { font-size: 2.4rem; margin-bottom: 16px; }
+  .hero-subtitle { font-size: 1.05rem; margin-bottom: 28px; }
   .section-title { font-size: 1.7rem; }
-  .hero-card { padding: 30px 16px; }
-  .music-btn { top: 14px; right: 14px; padding: 10px 14px; font-size: 0.8rem; }
-  .btn { width: 100%; padding: 14px 24px; font-size: 0.95rem; }
-  .btn-surprise { font-size: 1.05rem; padding: 16px 24px; }
-  .countdown-box { gap: 8px; }
-  .countdown-item { padding: 8px 10px; min-width: 55px; }
-  .countdown-item span { font-size: 1.3rem; }
+  .hero-card { padding: 32px 20px; border-radius: 24px; }
+  .badge-pill { padding: 6px 16px; font-size: 0.75rem; margin-bottom: 18px; }
+  .music-btn { top: 14px; right: 14px; padding: 10px 16px; font-size: 0.8rem; }
+  .btn { width: 100%; padding: 15px 24px; font-size: 0.95rem; }
+  .btn-surprise { font-size: 1rem; padding: 15px 24px; }
+  .hero-actions { gap: 12px; }
   .modal-content { padding: 24px 16px; width: 95%; }
   .envelope { padding: 18px 14px; min-height: 260px; }
   .wax-seal { width: 65px; height: 65px; font-size: 2.2rem; }
@@ -985,11 +966,6 @@ body {
   .letter-heading { font-size: 1.7rem; margin-bottom: 12px; }
   .cake { transform: scale(0.85); margin-top: -15px; }
   .polaroid-frame { max-width: 90%; }
-}
-
-/* Remove tap highlight color on mobile */
-* {
-  -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes fadeInDown {
