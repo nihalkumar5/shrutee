@@ -1,11 +1,13 @@
 /* ==========================================================================
    SHRUTEE'S BIRTHDAY CELEBRATION - SCRIPT
-   Interactive Engine & Web Audio Synthesizer (2026 Edition)
+   Interactive Engine & Web Audio Synthesizer (Mobile-Optimized 2026 Edition)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- 1. STARRY CANVAS ANIMATION ---
+  const isMobile = window.innerWidth <= 768;
+
+  // --- 1. STARRY CANVAS ANIMATION (MOBILE OPTIMIZED) ---
   const canvas = document.getElementById('starsCanvas');
   const ctx = canvas.getContext('2d');
   let stars = [];
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.size = Math.random() * 2 + 0.5;
+      this.size = Math.random() * (isMobile ? 1.5 : 2) + 0.5;
       this.alpha = Math.random();
       this.speed = Math.random() * 0.02 + 0.005;
     }
@@ -44,18 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Firework Particle System for Cake & Surprises
+  // Firework Particle System
   class FireworkParticle {
     constructor(x, y, color) {
       this.x = x;
       this.y = y;
       this.color = color;
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 6 + 2;
+      const speed = Math.random() * (isMobile ? 4 : 6) + 2;
       this.vx = Math.cos(angle) * speed;
       this.vy = Math.sin(angle) * speed;
       this.alpha = 1;
-      this.decay = Math.random() * 0.02 + 0.01;
+      this.decay = Math.random() * 0.02 + 0.015;
       this.size = Math.random() * 3 + 2;
     }
     update() {
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function launchFireworks(x = width / 2, y = height / 3, count = 80) {
+  function launchFireworks(x = width / 2, y = height / 3, count = (isMobile ? 50 : 80)) {
     const colors = ['#ff758c', '#ffd700', '#7b2cbf', '#ffb3c6', '#ffffff', '#4cc9f0'];
     for (let i = 0; i < count; i++) {
       const color = colors[Math.floor(Math.random() * colors.length)];
@@ -83,21 +85,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Initialize Stars
-  for (let i = 0; i < 150; i++) {
+  // Initialize Stars (fewer on mobile for 60fps performance)
+  const starCount = isMobile ? 80 : 150;
+  for (let i = 0; i < starCount; i++) {
     stars.push(new Star());
   }
 
   function animateCanvas() {
     ctx.clearRect(0, 0, width, height);
 
-    // Update and draw stars
     stars.forEach(star => {
       star.update();
       star.draw();
     });
 
-    // Update and draw fireworks
     for (let i = fireworks.length - 1; i >= 0; i--) {
       fireworks[i].update();
       fireworks[i].draw();
@@ -111,65 +112,84 @@ document.addEventListener('DOMContentLoaded', () => {
   animateCanvas();
 
 
-  // --- 2. WEB AUDIO SYNTHESIZER (HAPPY BIRTHDAY MELODY) ---
+  // Helper for touch & click binding
+  function addTapListener(element, callback) {
+    if (!element) return;
+    let touched = false;
+    element.addEventListener('touchstart', (e) => {
+      touched = true;
+      callback(e);
+    }, { passive: true });
+    element.addEventListener('click', (e) => {
+      if (!touched) callback(e);
+      touched = false;
+    });
+  }
+
+
+  // --- 2. WEB AUDIO SYNTHESIZER ---
   let audioCtx = null;
   let isPlaying = false;
   let currentNoteIndex = 0;
   let melodyTimeout = null;
 
   const happyBirthdayMelody = [
-    { note: 261.63, duration: 0.35 }, // C4
-    { note: 261.63, duration: 0.25 }, // C4
-    { note: 293.66, duration: 0.60 }, // D4
-    { note: 261.63, duration: 0.60 }, // C4
-    { note: 349.23, duration: 0.60 }, // F4
-    { note: 329.63, duration: 1.00 }, // E4
+    { note: 261.63, duration: 0.35 },
+    { note: 261.63, duration: 0.25 },
+    { note: 293.66, duration: 0.60 },
+    { note: 261.63, duration: 0.60 },
+    { note: 349.23, duration: 0.60 },
+    { note: 329.63, duration: 1.00 },
 
-    { note: 261.63, duration: 0.35 }, // C4
-    { note: 261.63, duration: 0.25 }, // C4
-    { note: 293.66, duration: 0.60 }, // D4
-    { note: 261.63, duration: 0.60 }, // C4
-    { note: 392.00, duration: 0.60 }, // G4
-    { note: 349.23, duration: 1.00 }, // F4
+    { note: 261.63, duration: 0.35 },
+    { note: 261.63, duration: 0.25 },
+    { note: 293.66, duration: 0.60 },
+    { note: 261.63, duration: 0.60 },
+    { note: 392.00, duration: 0.60 },
+    { note: 349.23, duration: 1.00 },
 
-    { note: 261.63, duration: 0.35 }, // C4
-    { note: 261.63, duration: 0.25 }, // C4
-    { note: 523.25, duration: 0.60 }, // C5
-    { note: 440.00, duration: 0.60 }, // A4
-    { note: 349.23, duration: 0.60 }, // F4
-    { note: 329.63, duration: 0.60 }, // E4
-    { note: 293.66, duration: 0.80 }, // D4
+    { note: 261.63, duration: 0.35 },
+    { note: 261.63, duration: 0.25 },
+    { note: 523.25, duration: 0.60 },
+    { note: 440.00, duration: 0.60 },
+    { note: 349.23, duration: 0.60 },
+    { note: 329.63, duration: 0.60 },
+    { note: 293.66, duration: 0.80 },
 
-    { note: 466.16, duration: 0.35 }, // Bb4
-    { note: 466.16, duration: 0.25 }, // Bb4
-    { note: 440.00, duration: 0.60 }, // A4
-    { note: 349.23, duration: 0.60 }, // F4
-    { note: 392.00, duration: 0.60 }, // G4
-    { note: 349.23, duration: 1.20 }  // F4
+    { note: 466.16, duration: 0.35 },
+    { note: 466.16, duration: 0.25 },
+    { note: 440.00, duration: 0.60 },
+    { note: 349.23, duration: 0.60 },
+    { note: 392.00, duration: 0.60 },
+    { note: 349.23, duration: 1.20 }
   ];
 
   function playTone(freq, duration) {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch(e) {
+      console.log('Audio init on tap');
     }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
   }
 
   function playMelodyStep() {
@@ -182,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const musicToggle = document.getElementById('musicToggle');
-  musicToggle.addEventListener('click', () => {
+  addTapListener(musicToggle, () => {
     if (isPlaying) {
       isPlaying = false;
       clearTimeout(melodyTimeout);
@@ -279,27 +299,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const current = surprises[surpriseIndex % surprises.length];
     surpriseIndex++;
 
-    // Launch fireworks
-    launchFireworks(width / 2, height / 3, 100);
-    playTone(523.25, 0.4); // C5 sparkle chime
+    launchFireworks(width / 2, height / 3, isMobile ? 60 : 100);
+    playTone(523.25, 0.4);
 
-    // Update modal
     document.getElementById('surpriseModalIcon').textContent = current.icon;
     document.getElementById('surpriseModalTitle').textContent = current.title;
     document.getElementById('surpriseModalText').textContent = current.text;
 
-    // Update main page section display
     document.getElementById('surpriseIcon').textContent = current.icon;
     document.getElementById('surpriseText').textContent = current.text;
-    surpriseDisplay.classList.remove('hidden');
+    if (surpriseDisplay) surpriseDisplay.classList.remove('hidden');
 
-    surpriseModal.classList.remove('hidden');
+    if (surpriseModal) surpriseModal.classList.remove('hidden');
   }
 
-  if (surpriseHeroBtn) surpriseHeroBtn.addEventListener('click', triggerSurprise);
-  if (mainSurpriseBtn) mainSurpriseBtn.addEventListener('click', triggerSurprise);
-  if (nextSurpriseBtn) nextSurpriseBtn.addEventListener('click', triggerSurprise);
-  if (closeSurpriseBtn) closeSurpriseBtn.addEventListener('click', () => surpriseModal.classList.add('hidden'));
+  addTapListener(surpriseHeroBtn, triggerSurprise);
+  addTapListener(mainSurpriseBtn, triggerSurprise);
+  addTapListener(nextSurpriseBtn, triggerSurprise);
+  addTapListener(closeSurpriseBtn, () => surpriseModal.classList.add('hidden'));
 
 
   // --- 5. SECRET LETTER UNBOXING & TYPEWRITER ---
@@ -323,29 +340,31 @@ I hope your 2026 birthday is filled with endless smiles, sweet treats, and pure 
 
 Keep shining brightly like the star that you are.
 
-Happy Birthday, Shrutee! 🎉💖`;
+Happy Birthday, Shrutee! 🎉💖
+
+— With lots of love & warm wishes,
+Nihal Kumar`;
 
   let isLetterOpened = false;
 
-  openLetterBtn.addEventListener('click', () => {
+  addTapListener(openLetterBtn, () => {
     letterModal.classList.remove('hidden');
   });
 
-  closeLetterBtn.addEventListener('click', () => {
+  addTapListener(closeLetterBtn, () => {
     letterModal.classList.add('hidden');
   });
 
-  waxSeal.addEventListener('click', () => {
+  addTapListener(waxSeal, () => {
     if (isLetterOpened) return;
     isLetterOpened = true;
     envelope.classList.add('open');
-    playTone(440, 0.3); // Chime
-    launchFireworks(width / 2, height / 2, 60);
+    playTone(440, 0.3);
+    launchFireworks(width / 2, height / 2, isMobile ? 40 : 60);
 
-    // Typewriter Effect
     let i = 0;
     letterTextElement.textContent = '';
-    const speed = 25;
+    const speed = isMobile ? 20 : 25;
 
     function typeWriter() {
       if (i < letterContent.length) {
@@ -354,7 +373,7 @@ Happy Birthday, Shrutee! 🎉💖`;
         setTimeout(typeWriter, speed);
       }
     }
-    setTimeout(typeWriter, 600);
+    setTimeout(typeWriter, 500);
   });
 
 
@@ -372,19 +391,18 @@ Happy Birthday, Shrutee! 🎉💖`;
       if (flame) flame.classList.add('blown-out');
     });
 
-    playTone(659.25, 0.5); // E5 celebration sound
-    launchFireworks(width / 2, height / 3, 120);
-    launchFireworks(width / 4, height / 2, 80);
-    launchFireworks((3 * width) / 4, height / 2, 80);
+    playTone(659.25, 0.5);
+    launchFireworks(width / 2, height / 3, isMobile ? 60 : 120);
+    launchFireworks(width / 4, height / 2, isMobile ? 40 : 80);
 
-    celebrationBanner.classList.remove('hidden');
-    blowCandlesBtn.textContent = '🎉 Wish Sent To The Stars!';
+    if (celebrationBanner) celebrationBanner.classList.remove('hidden');
+    if (blowCandlesBtn) blowCandlesBtn.textContent = '🎉 Wish Sent To The Stars!';
   }
 
   flames.forEach(flame => {
-    if (flame) flame.addEventListener('click', blowOutCandles);
+    addTapListener(flame, blowOutCandles);
   });
-  if (blowCandlesBtn) blowCandlesBtn.addEventListener('click', blowOutCandles);
+  addTapListener(blowCandlesBtn, blowOutCandles);
 
 
   // --- 7. COMPLIMENT GENERATOR ---
@@ -401,7 +419,7 @@ Happy Birthday, Shrutee! 🎉💖`;
   const nextComplimentBtn = document.getElementById('nextComplimentBtn');
 
   if (nextComplimentBtn) {
-    nextComplimentBtn.addEventListener('click', () => {
+    addTapListener(nextComplimentBtn, () => {
       compIndex = (compIndex + 1) % compliments.length;
       complimentText.style.opacity = 0;
       setTimeout(() => {
@@ -427,13 +445,13 @@ Happy Birthday, Shrutee! 🎉💖`;
   let wishIdx = 0;
 
   if (magicJar) {
-    magicJar.addEventListener('click', () => {
+    addTapListener(magicJar, () => {
       const selectedWish = wishes[wishIdx % wishes.length];
       wishIdx++;
       wishNoteContent.textContent = selectedWish;
       wishNoteModal.classList.remove('hidden');
-      playTone(587.33, 0.3); // D5 chime
-      launchFireworks(width / 2, height / 2, 40);
+      playTone(587.33, 0.3);
+      launchFireworks(width / 2, height / 2, isMobile ? 30 : 40);
     });
   }
 
@@ -445,7 +463,7 @@ Happy Birthday, Shrutee! 🎉💖`;
   const closeLightbox = document.getElementById('closeLightbox');
 
   polaroids.forEach(frame => {
-    frame.addEventListener('click', () => {
+    addTapListener(frame, () => {
       const img = frame.querySelector('img');
       if (img && lightbox && lightboxImg) {
         lightboxImg.src = img.src;
@@ -455,7 +473,7 @@ Happy Birthday, Shrutee! 🎉💖`;
   });
 
   if (closeLightbox) {
-    closeLightbox.addEventListener('click', () => {
+    addTapListener(closeLightbox, () => {
       lightbox.classList.add('hidden');
     });
   }
