@@ -1,6 +1,6 @@
 /* ==========================================================================
    SHRUTEE'S BIRTHDAY CELEBRATION - SCRIPT
-   Interactive Engine & Web Audio Synthesizer (Mobile-Optimized 2026 Edition)
+   Interactive Engine & Web Audio Synthesizer (Autoplay & Mobile Optimized)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Initialize Stars (fewer on mobile for 60fps performance)
   const starCount = isMobile ? 80 : 150;
   for (let i = 0; i < starCount; i++) {
     stars.push(new Star());
@@ -127,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // --- 2. WEB AUDIO SYNTHESIZER ---
+  // --- 2. WEB AUDIO SYNTHESIZER WITH AUTOPLAY ---
   let audioCtx = null;
   let isPlaying = false;
   let currentNoteIndex = 0;
@@ -188,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       osc.start();
       osc.stop(audioCtx.currentTime + duration);
     } catch(e) {
-      console.log('Audio init on tap');
+      console.log('Audio init');
     }
   }
 
@@ -201,21 +200,56 @@ document.addEventListener('DOMContentLoaded', () => {
     melodyTimeout = setTimeout(playMelodyStep, current.duration * 1000 + 100);
   }
 
+  function startMusic() {
+    if (isPlaying) return;
+    isPlaying = true;
+    currentNoteIndex = 0;
+    const musicToggle = document.getElementById('musicToggle');
+    if (musicToggle) {
+      musicToggle.classList.add('playing');
+      musicToggle.querySelector('.music-text').textContent = 'Pause Music 🎵';
+    }
+    playMelodyStep();
+  }
+
+  function stopMusic() {
+    isPlaying = false;
+    clearTimeout(melodyTimeout);
+    const musicToggle = document.getElementById('musicToggle');
+    if (musicToggle) {
+      musicToggle.classList.remove('playing');
+      musicToggle.querySelector('.music-text').textContent = 'Play Birthday Tune';
+    }
+  }
+
   const musicToggle = document.getElementById('musicToggle');
   addTapListener(musicToggle, () => {
     if (isPlaying) {
-      isPlaying = false;
-      clearTimeout(melodyTimeout);
-      musicToggle.classList.remove('playing');
-      musicToggle.querySelector('.music-text').textContent = 'Play Birthday Tune';
+      stopMusic();
     } else {
-      isPlaying = true;
-      currentNoteIndex = 0;
-      musicToggle.classList.add('playing');
-      musicToggle.querySelector('.music-text').textContent = 'Pause Music 🎵';
-      playMelodyStep();
+      startMusic();
     }
   });
+
+  // Autoplay Trigger: On first user interaction (touch, click, scroll) start music automatically!
+  let hasAutoplayed = false;
+  function handleFirstUserInteraction() {
+    if (hasAutoplayed) return;
+    hasAutoplayed = true;
+    startMusic();
+    window.removeEventListener('click', handleFirstUserInteraction);
+    window.removeEventListener('touchstart', handleFirstUserInteraction);
+    window.removeEventListener('scroll', handleFirstUserInteraction);
+  }
+
+  window.addEventListener('click', handleFirstUserInteraction, { once: true });
+  window.addEventListener('touchstart', handleFirstUserInteraction, { once: true });
+  window.addEventListener('scroll', handleFirstUserInteraction, { once: true });
+
+  // Attempt instant autoplay
+  try {
+    startMusic();
+  } catch(e) {}
 
 
   // --- 3. COUNTDOWN TIMER TO 2ND AUGUST 2026 ---
@@ -253,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       icon: '🎶',
       title: 'Birthday Melody Unlocked!',
-      text: 'Starting a sweet musical chime! Tap the music button at top-right anytime to enjoy!'
+      text: 'Playing a sweet birthday tune! Tap the music button anytime to pause/play!'
     },
     {
       icon: '🧁',
