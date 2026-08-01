@@ -296,29 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch(e) {}
 
 
-  // --- 3. COUNTDOWN TIMER TO 2ND AUGUST 2026 ---
-  function updateCountdown() {
-    const targetDate = new Date('2026-08-02T00:00:00+05:30');
-    const now = new Date();
-    const diff = targetDate - now;
-
-    if (diff <= 0) {
-      document.getElementById('cdHours').textContent = '00';
-      document.getElementById('cdMins').textContent = '00';
-      document.getElementById('cdSecs').textContent = '00';
-      return;
-    }
-
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
-    document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
-  }
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
+  // --- 3. LIVE CELEBRATION LAUNCHER (AUGUST 2, 2026) ---
+  setTimeout(() => {
+    launchFireworks(width / 2, height / 3, isMobile ? 60 : 100);
+  }, 1000);
 
 
   // --- 4. INTERACTIVE SURPRISE GENERATOR ---
