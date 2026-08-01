@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Shrutee! ✨🎂 (August 2, 2026)</title>
+  <meta name="description" content="A special birthday surprise website crafted with love for Shrutee.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Particle Background Canvas -->
+  <canvas id="starsCanvas"></canvas>
+
+  <!-- Audio Controls -->
+  <button id="musicToggle" class="music-btn" aria-label="Toggle Birthday Music">
+    <span class="music-icon">🎵</span>
+    <span class="music-text">Play Birthday Tune</span>
+  </button>
+
+  <!-- Floating Balloons Container -->
+  <div id="balloonsContainer"></div>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="hero-card glass-panel">
+      <div class="badge-pill">✨ 2ND AUGUST 2026 • HAPPY BIRTHDAY ✨</div>
+      <h1 class="hero-title">Happy Birthday, <span class="highlight-text">Shrutee</span>! 🎉</h1>
+      <p class="hero-subtitle">To the most radiant, kindest, and extraordinary soul in the universe.</p>
+      
+      <!-- Countdown Banner -->
+      <div class="countdown-box">
+        <div class="countdown-item">
+          <span id="cdHours">00</span>
+          <label>Hours</label>
+        </div>
+        <div class="countdown-item">
+          <span id="cdMins">00</span>
+          <label>Mins</label>
+        </div>
+        <div class="countdown-item">
+          <span id="cdSecs">00</span>
+          <label>Secs</label>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button id="openLetterBtn" class="btn btn-primary pulse-effect">
+          <span class="btn-icon">💌</span> Read Your Birthday Letter
+        </button>
+        <button id="surpriseHeroBtn" class="btn btn-surprise">
+          <span class="btn-icon">🎁</span> Tap For Surprises!
+        </button>
+      </div>
+    </div>
+
+    <div class="scroll-down-hint">
+      <span>Scroll down for magical surprises</span>
+      <div class="chevron"></div>
+    </div>
+  </header>
+
+  <!-- Main Interactive Sections -->
+  <main class="main-content">
+
+    <!-- Surprise Modal / Popup -->
+    <div id="surpriseModal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel text-center">
+        <button id="closeSurpriseBtn" class="close-btn" aria-label="Close Surprise">&times;</button>
+        <div class="surprise-modal-body">
+          <div id="surpriseModalIcon" class="surprise-modal-icon">🎁</div>
+          <h2 id="surpriseModalTitle" class="surprise-modal-title">Surprise For Shrutee!</h2>
+          <p id="surpriseModalText" class="surprise-modal-text">Loading surprise...</p>
+          <button id="nextSurpriseBtn" class="btn btn-gold" style="margin-top: 20px;">
+            ✨ Get Another Surprise!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secret Letter Modal / Unboxing -->
+    <div id="letterModal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel">
+        <button id="closeLetterBtn" class="close-btn" aria-label="Close Letter">&times;</button>
+        
+        <div class="envelope-container">
+          <div class="envelope" id="envelope">
+            <div class="envelope-front">
+              <div class="wax-seal" id="waxSeal">
+                <span>S</span>
+              </div>
+              <p class="seal-hint">Tap seal to open your letter</p>
+            </div>
+            
+            <div class="letter-paper" id="letterPaper">
+              <h2 class="letter-heading">Dearest Shrutee,</h2>
+              <div id="letterText" class="letter-body"></div>
+              <div class="signature">With lots of love & warm wishes ❤️<br><small>August 2, 2026</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Click For Surprises Dedicated Section -->
+    <section class="section surprise-section text-center">
+      <div class="section-header text-center">
+        <h2 class="section-title">The Magic Surprise Generator 🎁</h2>
+        <p class="section-subtitle">Keep clicking to unlock endless magical birthday surprises!</p>
+      </div>
+
+      <div class="surprise-box-container">
+        <button id="mainSurpriseBtn" class="btn btn-surprise">
+          🎁 Click Me For A Birthday Surprise! ✨
+        </button>
+      </div>
+
+      <div id="surpriseDisplay" class="surprise-display glass-panel hidden">
+        <div id="surpriseIcon" class="surprise-icon">🎈</div>
+        <div id="surpriseText" class="surprise-text">Tap the button above to unlock a surprise!</div>
+      </div>
+    </section>
+
+    <!-- Virtual Birthday Cake & Blow Candles Section -->
+    <section id="cakeSection" class="section cake-section">
+      <div class="section-header text-center">
+        <h2 class="section-title">Make A Wish & Blow Out The Candles! 🕯️</h2>
+        <p class="section-subtitle">Click the candle flames or tap the button below to blow them out and launch fireworks!</p>
+      </div>
+
+      <div class="cake-wrapper">
+        <div class="cake" id="birthdayCake">
+          <div class="plate"></div>
+          <div class="layer layer-bottom"></div>
+          <div class="layer layer-middle"></div>
+          <div class="layer layer-top"></div>
+          <div class="icing"></div>
+          <div class="drips">
+            <div class="drip drip-1"></div>
+            <div class="drip drip-2"></div>
+            <div class="drip drip-3"></div>
+            <div class="drip drip-4"></div>
+            <div class="drip drip-5"></div>
+          </div>
+
+          <div class="candles-container">
+            <div class="candle candle-1">
+              <div class="flame" id="flame1"></div>
+            </div>
+            <div class="candle candle-2">
+              <div class="flame" id="flame2"></div>
+            </div>
+            <div class="candle candle-3">
+              <div class="flame" id="flame3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cake-actions text-center">
+        <button id="blowCandlesBtn" class="btn btn-gold">
+          💨 Blow Out Candles!
+        </button>
+      </div>
+
+      <!-- Celebration Banner Revealed After Blowing Candles -->
+      <div id="celebrationBanner" class="celebration-banner hidden">
+        <h2 class="banner-title">✨ WISH GRANTED! HAPPY BIRTHDAY SHRUTEE! ✨</h2>
+      </div>
+    </section>
+
+    <!-- Reasons Why Shrutee is Special (Interactive Flip Cards) -->
+    <section class="section reasons-section">
+      <div class="section-header text-center">
+        <h2 class="section-title">Why Shrutee is Truly One in a Million 💎</h2>
+        <p class="section-subtitle">Tap each card to discover why you are so special!</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-panel">
+              <span class="card-icon">🌟</span>
+              <h3>Radiant Smile</h3>
+              <p class="tap-hint">Tap to flip ➔</p>
+            </div>
+            <div class="flip-card-back glass-panel">
+              <p>"Your smile has an effortless way of brightening up every conversation and lifting everyone's spirits."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-panel">
+              <span class="card-icon">💖</span>
+              <h3>Pure Heart</h3>
+              <p class="tap-hint">Tap to flip ➔</p>
+            </div>
+            <div class="flip-card-back glass-panel">
+              <p>"Your genuine warmth, empathy, and caring nature make you incredibly special."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-panel">
+              <span class="card-icon">👑</span>
+              <h3>Inspiring Vibe</h3>
+              <p class="tap-hint">Tap to flip ➔</p>
+            </div>
+            <div class="flip-card-back glass-panel">
+              <p>"You stay true to yourself with elegance, positivity, and grace."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front glass-panel">
+              <span class="card-icon">✨</span>
+              <h3>Future Memories</h3>
+              <p class="tap-hint">Tap to flip ➔</p>
+            </div>
+            <div class="flip-card-back glass-panel">
+              <p>"Can't wait for all the amazing conversations ahead, and the day we finally meet in real life!"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="compliment-box glass-panel text-center">
+        <div id="complimentText" class="compliment-text">"Click the magic button below to reveal another reason why you're awesome!"</div>
+        <button id="nextComplimentBtn" class="btn btn-sparkle">
+          ✨ Tap For Another Reason
+        </button>
+      </div>
+    </section>
+
+    <!-- Wish Jar Section -->
+    <section class="section wish-jar-section text-center">
+      <div class="section-header text-center">
+        <h2 class="section-title">The Magic Birthday Wish Jar 🔮</h2>
+        <p class="section-subtitle">Tap the jar to draw your fortune wish for 2026!</p>
+      </div>
+
+      <div class="jar-wrapper">
+        <div id="magicJar" class="magic-jar">
+          <div class="jar-lid"></div>
+          <div class="jar-glass">
+            <div class="jar-glow"></div>
+            <div class="sparkles-inside">✨ ✨ ✨</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="wishNoteModal" class="wish-note-card glass-panel hidden">
+        <div class="wish-note-content" id="wishNoteContent">
+          Draw a wish!
+        </div>
+      </div>
+    </section>
+
+    <!-- Polaroid Memory & Wish Wall -->
+    <section class="section memory-section">
+      <div class="section-header text-center">
+        <h2 class="section-title">Starlight Wishes & Moments 📸</h2>
+        <p class="section-subtitle">A collection of warm wishes for Shrutee's 2026 Birthday.</p>
+      </div>
+
+      <div class="memory-grid">
+        <div class="polaroid-frame tilt-left">
+          <div class="polaroid-img-box">
+            <img src="images/portrait.jpg" alt="Shrutee Birthday Queen 2026" loading="lazy">
+          </div>
+          <div class="polaroid-caption">Birthday Queen ✨</div>
+        </div>
+
+        <div class="polaroid-frame tilt-right">
+          <div class="polaroid-img-box">
+            <img src="images/cupcakes.jpg" alt="Sweetest Wishes 2026" loading="lazy">
+          </div>
+          <div class="polaroid-caption">Sweetest Wishes 🧁</div>
+        </div>
+
+        <div class="polaroid-frame tilt-straight">
+          <div class="polaroid-img-box">
+            <img src="images/starry_wish.jpg" alt="Starry Sky Wishes 2026" loading="lazy">
+          </div>
+          <div class="polaroid-caption">Make A Wish 💫</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lightbox Modal for Photos -->
+  <div id="lightbox" class="lightbox hidden">
+    <span id="closeLightbox" class="lightbox-close">&times;</span>
+    <img id="lightboxImg" src="" alt="Enlarged Wish">
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <p>Crafted with endless warmth & sparkles for <strong>Shrutee</strong>'s 2026 Birthday ✨</p>
+    <p class="footer-sub">August 2, 2026 • May your year ahead be as magnificent as you are!</p>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>
