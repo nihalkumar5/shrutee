@@ -126,59 +126,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // --- 2. ENHANCED MAGICAL MUSIC BOX SYNTHESIZER ---
+  // --- 2. "SUKOON" - PEACEFUL AMBIENT PIANO & MUSIC BOX SYNTHESIZER ---
   let audioCtx = null;
   let isPlaying = false;
   let currentNoteIndex = 0;
   let melodyTimeout = null;
   let delayNode = null;
 
-  // Rich Polyphonic Music Box Song Sheet (Notes + Harmony Chords)
-  const magicalMelody = [
-    // Phrase 1
-    { note: 261.63, chord: [130.81, 196.00], duration: 0.4 }, // C4 + C3/G3 bass
-    { note: 261.63, duration: 0.3 },
-    { note: 293.66, chord: [146.83, 220.00], duration: 0.6 }, // D4
-    { note: 261.63, duration: 0.6 },
-    { note: 349.23, chord: [174.61, 261.63], duration: 0.6 }, // F4
-    { note: 329.63, chord: [164.81, 246.94], duration: 1.1 }, // E4
+  // Deeply Peaceful, Serene Ambient Piano Melody (Canon in D / River Flows Style)
+  const peacefulSukoonMelody = [
+    // Phrase 1: Gentle Warmth
+    { note: 440.00, chord: [146.83, 220.00], duration: 0.9 }, // A4 + D3/A3 bass
+    { note: 493.88, duration: 0.7 },                         // B4
+    { note: 554.37, chord: [185.00, 277.18], duration: 1.1 }, // C#5 + F#3 bass
+    { note: 493.88, duration: 0.7 },                         // B4
+    { note: 440.00, chord: [146.83, 220.00], duration: 1.3 }, // A4 + D3 bass
 
-    // Phrase 2
-    { note: 261.63, chord: [130.81, 196.00], duration: 0.4 },
-    { note: 261.63, duration: 0.3 },
-    { note: 293.66, chord: [146.83, 220.00], duration: 0.6 },
-    { note: 261.63, duration: 0.6 },
-    { note: 392.00, chord: [196.00, 293.66], duration: 0.6 }, // G4
-    { note: 349.23, chord: [174.61, 261.63], duration: 1.1 }, // F4
+    // Phrase 2: Starry Starlight
+    { note: 370.00, chord: [146.83, 220.00], duration: 0.9 }, // F#4
+    { note: 440.00, duration: 0.7 },                         // A4
+    { note: 493.88, chord: [164.81, 246.94], duration: 1.1 }, // B4 + E3 bass
+    { note: 440.00, duration: 0.7 },                         // A4
+    { note: 370.00, chord: [146.83, 220.00], duration: 1.3 }, // F#4
 
-    // Phrase 3
-    { note: 261.63, chord: [130.81, 196.00], duration: 0.4 },
-    { note: 261.63, duration: 0.3 },
-    { note: 523.25, chord: [261.63, 392.00], duration: 0.6 }, // C5
-    { note: 440.00, chord: [220.00, 329.63], duration: 0.6 }, // A4
-    { note: 349.23, chord: [174.61, 261.63], duration: 0.6 }, // F4
-    { note: 329.63, duration: 0.6 },
-    { note: 293.66, chord: [146.83, 220.00], duration: 0.9 }, // D4
+    // Phrase 3: Deep Peace & Harmony
+    { note: 554.37, chord: [185.00, 277.18], duration: 0.9 }, // C#5
+    { note: 587.33, duration: 0.7 },                         // D5
+    { note: 659.25, chord: [220.00, 329.63], duration: 1.3 }, // E5 + A3 bass
+    { note: 554.37, duration: 0.7 },                         // C#5
+    { note: 493.88, chord: [146.83, 220.00], duration: 1.1 }, // B4
 
-    // Phrase 4 (Grand Finale)
-    { note: 466.16, chord: [233.08, 349.23], duration: 0.4 }, // Bb4
-    { note: 466.16, duration: 0.3 },
-    { note: 440.00, chord: [220.00, 329.63], duration: 0.6 }, // A4
-    { note: 349.23, chord: [174.61, 261.63], duration: 0.6 }, // F4
-    { note: 392.00, chord: [196.00, 293.66], duration: 0.6 }, // G4
-    { note: 349.23, chord: [130.81, 174.61, 261.63], duration: 1.4 }  // F4 Chord Resolution
+    // Phrase 4: Soothing Resolution
+    { note: 440.00, chord: [146.83, 220.00, 293.66], duration: 2.0 } // A4 D Major Resolution
   ];
 
   function getAudioContext() {
     if (!audioCtx) {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       
-      // Create Reverb / Echo Delay Node for shimmering ambient feel
+      // Create Reverb Delay Node for extra dreamy room feel
       delayNode = audioCtx.createDelay();
-      delayNode.delayTime.value = 0.25;
+      delayNode.delayTime.value = 0.35; // Soft 350ms echo
       
       const feedback = audioCtx.createGain();
-      feedback.gain.value = 0.3; // 30% feedback
+      feedback.gain.value = 0.35; // 35% feedback for ambient tail
 
       delayNode.connect(feedback);
       feedback.connect(delayNode);
@@ -193,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function playMusicBoxNote(freq, duration, isBass = false) {
     const ctx = getAudioContext();
 
-    // Fundamental Sine / Bell Oscillator
     const osc1 = ctx.createOscillator();
     const osc2 = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -202,24 +192,24 @@ document.addEventListener('DOMContentLoaded', () => {
     osc2.type = 'sine';
 
     osc1.frequency.setValueAtTime(freq, ctx.currentTime);
-    osc2.frequency.setValueAtTime(freq * 2, ctx.currentTime); // Octave overtone for shimmer
+    osc2.frequency.setValueAtTime(freq * 2, ctx.currentTime);
 
-    const volume = isBass ? 0.08 : 0.14;
+    const volume = isBass ? 0.06 : 0.12; // Gentle, relaxing volume
     gain.gain.setValueAtTime(volume, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration + 0.5);
+    gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration + 0.8);
 
     osc1.connect(gain);
     osc2.connect(gain);
 
     gain.connect(ctx.destination);
     if (delayNode && !isBass) {
-      gain.connect(delayNode); // Add shimmer echo to lead melody notes
+      gain.connect(delayNode);
     }
 
     osc1.start(ctx.currentTime);
     osc2.start(ctx.currentTime);
-    osc1.stop(ctx.currentTime + duration + 0.6);
-    osc2.stop(ctx.currentTime + duration + 0.6);
+    osc1.stop(ctx.currentTime + duration + 0.9);
+    osc2.stop(ctx.currentTime + duration + 0.9);
   }
 
   function playTone(freq, duration) {
@@ -228,20 +218,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function playMelodyStep() {
     if (!isPlaying) return;
-    const current = magicalMelody[currentNoteIndex];
+    const current = peacefulSukoonMelody[currentNoteIndex];
     
-    // Play Lead Melody Note
     playMusicBoxNote(current.note, current.duration, false);
 
-    // Play Polyphonic Harmony Chord (if present)
     if (current.chord) {
       current.chord.forEach(bassFreq => {
-        playMusicBoxNote(bassFreq, current.duration * 1.2, true);
+        playMusicBoxNote(bassFreq, current.duration * 1.3, true);
       });
     }
 
-    currentNoteIndex = (currentNoteIndex + 1) % magicalMelody.length;
-    melodyTimeout = setTimeout(playMelodyStep, current.duration * 1000 + 120);
+    currentNoteIndex = (currentNoteIndex + 1) % peacefulSukoonMelody.length;
+    melodyTimeout = setTimeout(playMelodyStep, current.duration * 1000 + 150);
   }
 
   function startMusic() {
